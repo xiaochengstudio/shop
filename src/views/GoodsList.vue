@@ -44,6 +44,7 @@
           </div>
         </div>
       </div>
+      <div class="md-overlay" v-show="overLayFlag" @click.stop="closePop"></div>
       <nav-footer></nav-footer>
     </div>
 </template>
@@ -87,7 +88,8 @@
                 endPrice:'6000.00'
               }],
             priceChecked:'all',
-            filterBy:false
+            filterBy:false,
+            overLayFlag:false
           }
         },
       components:{
@@ -108,7 +110,12 @@
               this.priceChecked = index;
           },
           showFilterPop(){
-            this.filterBy = true
+            this.filterBy = true;
+            this.overLayFlag = true;
+          },
+          closePop(){
+            this.filterBy = false;
+            this.overLayFlag = false
           }
       }
     }
