@@ -1,8 +1,8 @@
 {
   "name": "shop",
   "version": "1.0.0",
-  "description": "y",
-  "author": "y",
+  "description": "学习vuejs商城项目",
+  "author": "chengxin",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
