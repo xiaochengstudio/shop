@@ -33,6 +33,7 @@ app.all('*', function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/goods', goodsRouter);
+var users = require('./routes/users');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
