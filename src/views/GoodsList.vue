@@ -40,6 +40,12 @@
                   </li>
                 </ul>
               </div>
+              <div class="view-more-normal"
+                   v-infinite-scroll="loadMore"
+                   infinite-scroll-disabled="busy"
+                   infinite-scroll-distance="20">
+                <img src="./../../static/loading-svg/loading-spinning-bubbles.svg" v-show="loading">
+              </div>
             </div>
           </div>
         </div>
@@ -104,15 +110,30 @@
         this.getGoodsList();
       },
       methods:{
-          getGoodsList(){
+          getGoodsList(flag){
+            this.loading = true;
             var params = {
               page:this.page,
               pageSize:this.pageSize,
               sort:this.sortFlag?1:-1
             }
             axios.get("http://localhost:3000/goods",{params:params}).then((res) => {
+              this.loading = false;
+              console.log(res.data)
               if(res.data.status == 0){
-                this.goodsList = res.data.result.list;
+                if(flag){
+                  this.goodsList = this.goodsList.concat(res.data.result.list);
+                  if(res.data.result.count==0){
+                    this.busy = true;
+                  }else{
+                    this.busy = false;
+                  }
+                }else{
+                  this.goodsList = res.data.result.list;
+                  this.busy = false;
+                }
+              }else{
+                this.goodsList = [];
               }
             })
           },
@@ -125,6 +146,13 @@
             this.sortFlag = true;
             this.page = 1;
             this.getGoodsList();
+          },
+          loadMore(){
+            this.busy = true;
+            setTimeout(() => {
+              this.page++;
+              this.getGoodsList(true);
+            })
           },
           setPriceFilter(index){
               this.priceChecked = index;
