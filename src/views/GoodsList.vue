@@ -74,10 +74,19 @@
             pageSize: 8,
             busy:true,
             loading:false,
+            priceLevel:'all',
             priceFilter:[{
               startPrice:'0.00',
-              endPrice:'1000.00'
+              endPrice:'100.00'
             },
+              {
+                startPrice:'100.00',
+                endPrice:'500.00'
+              },
+              {
+                startPrice:'500.00',
+                endPrice:'1000.00'
+              },
               {
                 startPrice:'1000.00',
                 endPrice:'2000.00'
@@ -88,14 +97,6 @@
               },
               {
                 startPrice:'3000.00',
-                endPrice:'4000.00'
-              },
-              {
-                startPrice:'4000.00',
-                endPrice:'5000.00'
-              },
-              {
-                startPrice:'5000.00',
                 endPrice:'6000.00'
               }],
             priceChecked:'all',
@@ -115,11 +116,11 @@
             var params = {
               page:this.page,
               pageSize:this.pageSize,
-              sort:this.sortFlag?1:-1
+              sort:this.sortFlag?1:-1,
+              priceLevel:this.priceLevel
             }
             axios.get("http://localhost:3000/goods",{params:params}).then((res) => {
               this.loading = false;
-              console.log(res.data)
               if(res.data.status == 0){
                 if(flag){
                   this.goodsList = this.goodsList.concat(res.data.result.list);
@@ -156,6 +157,9 @@
           },
           setPriceFilter(index){
               this.priceChecked = index;
+              this.page = 1;
+              this.priceLevel = index;
+              this.getGoodsList();
           },
           showFilterPop(){
             this.filterBy = true;
