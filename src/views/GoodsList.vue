@@ -6,8 +6,8 @@
         <div class="container">
           <div class="filter-nav">
             <span class="sortby">排序:</span>
-            <a href="javascript:void(0)" class="default cur">默认</a>
-            <a href="javascript:void(0)" class="price">价格 <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
+            <a href="javascript:void(0)" class="default cur" @click="defaultSort()">默认</a>
+            <a href="javascript:void(0)" class="price" :class="{'sort-up':sortFlag}" @click="sortGoods()">价格 <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
             <a href="javascript:void(0)" class="filterby" @click.stop="showFilterPop">筛选</a>
           </div>
           <div class="accessory-result">
@@ -63,7 +63,7 @@
         data(){
           return {
             goodsList:[],
-            sortFlag:1,
+            sortFlag:true,
             page:1,
             pageSize: 8,
             busy:true,
@@ -108,13 +108,23 @@
             var params = {
               page:this.page,
               pageSize:this.pageSize,
-              sort:this.sortFlag
+              sort:this.sortFlag?1:-1
             }
-            axios.get("/goods",{params:params}).then((res) => {
+            axios.get("http://localhost:3000/goods",{params:params}).then((res) => {
               if(res.data.status == 0){
                 this.goodsList = res.data.result.list;
               }
             })
+          },
+          sortGoods(){
+            this.sortFlag = !this.sortFlag;
+            this.page = 1;
+            this.getGoodsList();
+          },
+          defaultSort(){
+            this.sortFlag = true;
+            this.page = 1;
+            this.getGoodsList();
           },
           setPriceFilter(index){
               this.priceChecked = index;
