@@ -106,7 +106,7 @@
           this.errorTip = true;
           return;
         }
-        axios.post("/users/login",{
+        axios.post("http://localhost:3000/users/login",{
           userName:this.userName,
           userPwd:this.userPwd
         }).then((response)=>{
@@ -121,7 +121,7 @@
         });
       },
       logOut(){
-        axios.post("/users/logout").then((response)=>{
+        axios.post("http://localhost:3000/users/logout").then((response)=>{
           let res = response.data;
           if(res.status=="0"){
             this.nickName = '';
