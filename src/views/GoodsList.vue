@@ -100,9 +100,9 @@
       },
       methods:{
           getGoodsList(){
-            axios.get("static/mock/goods.json").then((res) => {
+            axios.get("/goods").then((res) => {
               if(res.data.status == 0){
-                this.goodsList = res.data.result;
+                this.goodsList = res.data.result.list;
               }
             })
           },
