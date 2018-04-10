@@ -63,6 +63,11 @@
         data(){
           return {
             goodsList:[],
+            sortFlag:1,
+            page:1,
+            pageSize: 8,
+            busy:true,
+            loading:false,
             priceFilter:[{
               startPrice:'0.00',
               endPrice:'1000.00'
@@ -100,7 +105,12 @@
       },
       methods:{
           getGoodsList(){
-            axios.get("/goods").then((res) => {
+            var params = {
+              page:this.page,
+              pageSize:this.pageSize,
+              sort:this.sortFlag
+            }
+            axios.get("/goods",{params:params}).then((res) => {
               if(res.data.status == 0){
                 this.goodsList = res.data.result.list;
               }
