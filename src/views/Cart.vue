@@ -112,10 +112,10 @@
           <div class="cart-foot-inner">
             <div class="cart-foot-l">
               <div class="item-all-check">
-                <a href="javascipt:;">
-                                    <span class="checkbox-btn item-check-btn">
-                                        <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
-                                    </span>
+                <a href="javascipt:;" @click="toggleCheckAll">
+                  <span class="checkbox-btn item-check-btn" v-bind:class="{'check':checkAllFlag}">
+                      <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
+                  </span>
                   <span>全选</span>
                 </a>
               </div>
@@ -169,6 +169,16 @@
       Modal
     },
     computed:{
+      checkAllFlag(){
+        return this.checkedCount == this.cartList.length;
+      },
+      checkedCount(){
+        var i = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked=='1')i++;
+        })
+        return i;
+      },
       totalPrice(){
         var money = 0;
         this.cartList.forEach((item)=>{
@@ -228,6 +238,21 @@
           }
         })
       },
+      toggleCheckAll(){
+        //点击之前是，未全选状态：通过本次点击切换到全选的状态
+        var flag = !this.checkAllFlag;
+        this.cartList.forEach((item)=>{
+          item.checked = flag?'1':'0';
+        })
+        axios.post("/users/editCheckAll",{
+          checkAll:flag
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status=='0'){
+            console.log("update suc");
+          }
+        })
+      }
     }
   }
 </script>
