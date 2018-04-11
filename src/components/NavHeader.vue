@@ -86,6 +86,7 @@
 <script>
   import './../assets/css/login.css'
   import axios from 'axios'
+  import { mapState } from 'vuex'
 
   export default {
 //        name: 'NavHeader_Song',
@@ -94,9 +95,11 @@
         userName:'admin',
         userPwd:'123456',
         errorTip:false,
-        loginModalFlag:false,
-        nickName:''
+        loginModalFlag:false
       }
+    },
+    computed: {
+      ...mapState(['nickName','cartCount'])
     },
     mounted(){
       this.checkLogin()
@@ -106,10 +109,13 @@
         axios.get("/users/checkLogin").then((response)=>{
           var res = response.data;
           if(res.status=="0"){
-            this.nickName = res.result;
+            // this.nickName = res.result;
+            this.$store.commit("updateUserInfo",res.result);
             this.loginModalFlag = false;
           }else{
-
+            if(this.$route.path!="/goods"){
+              this.$router.push("/goods");
+            }
           }
         });
       },
@@ -126,7 +132,9 @@
           if(res.status=="0"){
             this.errorTip = false;
             this.loginModalFlag = false;
-            this.nickName = res.result.userName;
+            // this.nickName = res.result.userName;
+            this.$store.commit("updateUserInfo",res.result.userName);
+            this.getCartCount();
           }else{
             this.errorTip = true;
           }
@@ -139,6 +147,13 @@
             this.nickName = '';
           }
         })
+      },
+      getCartCount() {
+        axios.get("users/getCartCount").then(res => {
+          var res = res.data;
+          alert(res.result)
+          this.$store.commit("updateCartCount", res.result);
+        });
       }
     }
   }
