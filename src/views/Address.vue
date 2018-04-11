@@ -212,7 +212,6 @@
             this.isMdShow = false;
             this.init();
           }else{
-            this.isMdShow = false;
             alert(res.msg)
           }
         })
