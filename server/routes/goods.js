@@ -60,6 +60,15 @@ router.get('/', function(req, res, next) {
 
 //加入到购物车
 router.post("/addCart", function (req,res,next) {
+  // console.log(req.cookies.userId);
+  // if(!req.cookies.userId){
+  //   res.json({
+  //     status:'10001',
+  //     msg:'当前未登录',
+  //     result:''
+  //   });
+  //   return;
+  // }
   var userId = '100000077',productId = req.body.productId;
   var User = require('../models/user');
   User.findOne({userId:userId}, function (err,userDoc) {

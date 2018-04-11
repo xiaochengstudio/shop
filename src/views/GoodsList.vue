@@ -170,7 +170,7 @@
             this.overLayFlag = false
           },
           addCart(productId){
-              axios.post("/goods/addCart",{productId:productId}).then((res) => {
+              axios.post("http://localhost:8080/goods/addCart",{productId:productId}).then((res) => {
                 if(res.data.status == "0"){
                   alert("加入成功")
                 }else{
