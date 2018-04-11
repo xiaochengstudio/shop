@@ -125,7 +125,7 @@
                 总价: <span class="total-price">{{totalPrice | currency('￥')}}</span>
               </div>
               <div class="btn-wrap">
-                <a class="btn btn--red">去结算</a>
+                <a class="btn btn--red" @click="checkOut">去结算</a>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@
   import NavFooter from './../components/NavFooter.vue'
   import Modal from './../components/Modal'
   import axios from 'axios'
-  import currency from '../util/currency';
+  import {currency} from '../util/currency';
 
   export default {
     data() {
@@ -257,6 +257,13 @@
             console.log("update suc");
           }
         })
+      },
+      checkOut(){
+        if(this.checkedCount>0){
+          this.$router.push({
+            path:"/address"
+          });
+        }
       }
     }
   }

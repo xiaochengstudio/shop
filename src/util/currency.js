@@ -1,6 +1,6 @@
 const digitsRE = /(\d{3})(?=\d)/g
 
-function currency (value, currency, decimals) {
+export function currency (value, currency, decimals) {
   value = parseFloat(value)
   if (!isFinite(value) || (!value && value !== 0)) return ''
   currency = currency != null ? currency : '￥'
@@ -21,5 +21,3 @@ function currency (value, currency, decimals) {
     _int.slice(i).replace(digitsRE, '$1,') +
     _float
 }
-
-export default currency
