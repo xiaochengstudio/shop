@@ -1,6 +1,4 @@
-/**
-* Created by Song on 2017/11/1.
-*/
+
 <template>
   <div>
     <header class="header">
