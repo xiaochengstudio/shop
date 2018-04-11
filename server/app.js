@@ -1,26 +1,30 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+// var favicon = require('serve-favicon');
 var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var ejs = require('ejs');
+
 var app = express();
 app.use(cookieParser());
 
-var indexRouter = require('./routes/index');
-var goodsRouter = require('./routes/goods');
+var index = require('./routes/index');
+var goods = require('./routes/goods');
 var users = require('./routes/users');
+
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.html',ejs.__express);
+app.engine('.html', ejs.__express)
 app.set('view engine', 'html');
 
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('*', function(req, res, next) {
@@ -33,13 +37,12 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-//未登陆拦截
 app.use(function (req,res,next) {
   if(req.cookies.userId){
     next();
   }else{
     console.log("url:"+req.originalUrl);
-    if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout' || req.originalUrl.indexOf('/goods')>-1){
+    if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){
       next();
     }else{
       res.json({
@@ -51,13 +54,15 @@ app.use(function (req,res,next) {
   }
 });
 
-app.use('/', indexRouter);
-app.use('/goods', goodsRouter);
+app.use('/', index);
+app.use('/goods', goods);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler

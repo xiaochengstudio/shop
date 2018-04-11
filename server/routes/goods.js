@@ -10,7 +10,7 @@ mongoose.connection.on("connected",function(){
 })
 
 /* 查询商品列表数据*/
-router.get('/', function(req, res, next) {
+router.get('/list', function(req, res, next) {
   let page = parseInt(req.param("page"));
   let pageSize = parseInt(req.param("pageSize"));
   let sort = req.param("sort");
