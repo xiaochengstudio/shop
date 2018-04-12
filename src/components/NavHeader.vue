@@ -147,6 +147,8 @@
           let res = response.data;
           if(res.status=="0"){
             this.$store.commit("updateUserInfo","");
+            this.$store.commit("updateCartCount", res.result);
+            this.showCart = false;
           }
         })
       },
