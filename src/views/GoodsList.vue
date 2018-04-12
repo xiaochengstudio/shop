@@ -153,7 +153,7 @@
           priceLevel: this.priceChecked
         }
         this.loading = true;
-        axios.get("http://localhost:3000/goods/list",{
+        axios.get("/goods/list",{
           params:param
         }).then((result) => {
           console.log(result.data.result)
@@ -200,7 +200,7 @@
         }, 500)
       },
       addCart(productId){
-        axios.post("http://localhost:8080/goods/addCart",{
+        axios.post("/goods/addCart",{
           productId:productId
         }).then((res)=>{
           var res = res.data;

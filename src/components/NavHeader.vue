@@ -126,7 +126,7 @@
           this.errorTip = true;
           return;
         }
-        axios.post("http://localhost:3000/users/login",{
+        axios.post("/users/login",{
           userName:this.userName,
           userPwd:this.userPwd
         }).then((response)=>{
@@ -143,7 +143,7 @@
         });
       },
       logOut(){
-        axios.post("http://localhost:3000/users/logout").then((response)=>{
+        axios.post("/users/logout").then((response)=>{
           let res = response.data;
           if(res.status=="0"){
             this.$store.commit("updateUserInfo","");
