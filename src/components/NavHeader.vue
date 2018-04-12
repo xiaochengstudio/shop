@@ -37,7 +37,7 @@
             <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>登出</a>
             <!--<a href="javascript:void(0)" class="navbar-link">登出</a>-->
             <div class="navbar-cart-container">
-              <span class="navbar-cart-count"></span>
+              <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount  && showCart "></span>
               <a class="navbar-link" href="/#/cart">
                 <svg class="navbar-cart-logo">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart"></use>
@@ -95,7 +95,8 @@
         userName:'admin',
         userPwd:'123456',
         errorTip:false,
-        loginModalFlag:false
+        loginModalFlag:false,
+        showCart:false,
       }
     },
     computed: {
@@ -112,6 +113,7 @@
             // this.nickName = res.result;
             this.$store.commit("updateUserInfo",res.result);
             this.loginModalFlag = false;
+            this.showCart = true;
           }else{
             if(this.$route.path!="/goods"){
               this.$router.push("/goods");
@@ -144,15 +146,16 @@
         axios.post("http://localhost:3000/users/logout").then((response)=>{
           let res = response.data;
           if(res.status=="0"){
-            this.nickName = '';
+            this.$store.commit("updateUserInfo","");
           }
         })
       },
       getCartCount() {
         axios.get("users/getCartCount").then(res => {
           var res = res.data;
-          alert(res.result)
+          // alert(res.result)
           this.$store.commit("updateCartCount", res.result);
+          this.showCart = true;
         });
       }
     }
